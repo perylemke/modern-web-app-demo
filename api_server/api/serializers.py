@@ -24,7 +24,6 @@ class TaskListSerializer(serializers.ModelSerializer):
     
     def create(self, data):
         request = self.context.get('request')
-        print(type(request.user.pk))
 
         data["user"] = request.user
 
