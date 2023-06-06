@@ -1,0 +1,40 @@
+version: '3'
+services:
+  django:
+    container_name: django_api
+    build:
+      context: .
+      dockerfile: ./api_server/Dockerfile
+    image: perylemke/django_api:latest
+    entrypoint: /backend_app/docker-entrypoint.sh 
+    volumes:
+      - api-volume:/backend_app
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "8000:8000"
+
+  react:
+    container_name: react_ui
+    build:
+      context: .
+      dockerfile: ./web_client/Dockerfile
+    image: perylemke/react_ui:latest
+    depends_on:
+      - django
+    volumes:
+      - frontend-volume:/frontend_app
+    networks:
+      - frontend
+    ports:
+      - "3000:3000"
+
+
+networks:
+  backend:
+  frontend:
+
+volumes:
+  api-volume:
+  frontend-volume:
