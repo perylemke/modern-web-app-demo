@@ -15,6 +15,12 @@ services:
     ports:
      - "5432:5432"
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+
   django:
     container_name: django_api
     build:
@@ -23,6 +29,7 @@ services:
     image: perylemke/django_api:latest
     depends_on:
       - postgres
+      - redis
     environment:
       - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=appdb
@@ -30,6 +37,8 @@ services:
       - DB_PASSWORD=password
       - DB_HOST=postgres
       - DB_PORT=5432
+      - CACHE_MIDDLEWARE_ALIAS=redis
+      - CACHE_LOCATION=redis://redis:6379/0 
     entrypoint: /backend_app/docker-entrypoint.sh 
     volumes:
       - api-volume:/backend_app
@@ -38,7 +47,6 @@ services:
       - frontend
     ports:
       - "8000:8000"
-
 
   react:
     container_name: react_ui
