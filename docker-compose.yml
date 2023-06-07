@@ -1,11 +1,35 @@
 version: '3'
 services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.3
+    restart: always
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+     - "5432:5432"
+
   django:
     container_name: django_api
     build:
       context: .
       dockerfile: ./api_server/Dockerfile
     image: perylemke/django_api:latest
+    depends_on:
+      - postgres
+    environment:
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=appdb
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_HOST=postgres
+      - DB_PORT=5432
     entrypoint: /backend_app/docker-entrypoint.sh 
     volumes:
       - api-volume:/backend_app
@@ -14,6 +38,7 @@ services:
       - frontend
     ports:
       - "8000:8000"
+
 
   react:
     container_name: react_ui
@@ -40,3 +65,5 @@ networks:
 volumes:
   api-volume:
   frontend-volume:
+  db:
+    driver: local

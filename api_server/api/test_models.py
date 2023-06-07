@@ -1,9 +1,6 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from .models import TaskList, Task, CustomUser
-
-# User = get_user_model()
 
 # Model tests
 class CustomUserTest(TestCase):
