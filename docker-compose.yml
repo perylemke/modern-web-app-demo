@@ -23,6 +23,8 @@ services:
     image: perylemke/react_ui:latest
     depends_on:
       - django
+    environment:
+      - BACKEND_APP_PROXY_HOST=django
     volumes:
       - frontend-volume:/frontend_app
     networks:

@@ -10,15 +10,15 @@ This requires Python 3.
 
 ```shell
 # create a python virtual env
-python3 -m venv venv
-source venv/bin/activate
+$ python3 -m venv venv
+$ source venv/bin/activate
 
 # install the requirements
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 
 # start up the app
-python api_server/manage.py migrate
-python api_server/manage.py runserver
+$ python api_server/manage.py migrate
+$ python api_server/manage.py runserver
 ```
 
 The api server should run on http://localhost:8000/
@@ -29,15 +29,25 @@ This requires Node 16+.
 
 ```shell
 # Install NPM requirements
-cd webserver/
-npm ci
+$ cd web_client/
+$ npm ci
 
 # Run the UI
-npm start
+$ npm start
 ```
 
 The web UI should run on http://localhost:3000/
 
+### Run through Docker
+
+This is required Docker, Docker Compose or ContainerD
+```shell
+# Running the application
+$ docker-compose up -d --build
+
+# Down the applicaiton
+$ docker-compose down
+```
 
 ## Screenshots
 
